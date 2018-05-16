@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/FuturolandDev.iml" filepath="$PROJECT_DIR$/FuturolandDev.iml" />
+      <module fileurl="file://C:\Users\Lacko\Documents\Github\FuturolandPub\FuturolandDev\FuturolandDev.iml" filepath="C:\Users\Lacko\Documents\Github\FuturolandPub\FuturolandDev\FuturolandDev.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\Lacko\Documents\Github\FuturolandPub\FuturolandDev\app\app.iml" filepath="C:\Users\Lacko\Documents\Github\FuturolandPub\FuturolandDev\app\app.iml" />
     </modules>
   </component>
 </project>

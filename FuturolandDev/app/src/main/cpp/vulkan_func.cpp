@@ -1,4 +1,5 @@
 #include "vulkan_func.h"
+
 PFN_vkGetInstanceProcAddr pfn_vkGetInstanceProcAddr;
 PFN_vkEnumerateInstanceLayerProperties pfn_vkEnumerateInstanceLayerProperties;
 PFN_vkCreateInstance pfn_vkCreateInstance;

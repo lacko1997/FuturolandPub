@@ -1,7 +1,3 @@
-//
-// Created by Lacko on 2018. 05. 06..
-//
-
 #ifndef FUTUROLANDDEV_VULKAN_BASE_H
 #define FUTUROLANDDEV_VULKAN_BASE_H
 
@@ -33,6 +29,7 @@ private:
     VkInstance instance;
     VkPhysicalDevice gpu;
     VkDevice device;
+    VkQueue queue;
     uint32_t graphics_ind;
     VkSurfaceKHR surface;
     VkSwapchainKHR swapchain;
@@ -49,18 +46,21 @@ private:
     VkFormat depth_format;
     VkImageView depthView;
     VkDeviceMemory depth_mem;
+    bool supported;
 
     bool createInstance(char* appname);
     void enumerateGPU();
     void createDevice();
-    void createSurface(ANativeWindow *wnd);
+    void createSurface(ANativeWindow *wnd,VkExtent2D wnd_size);
     void createSwapchain();
     void reciveImages();
     void createDepthBuffer();
 public:
+    bool isSupported(){return supported;}
     VkInstance getInstance(){return instance;}
     VkPhysicalDevice getGpu(){return gpu;}
     VkDevice getDevice(){return device;}
+    VkQueue getQueue(uint32_t index){return queue;}
     VkSurfaceKHR getSurface(){return surface;}
     VkSwapchainKHR getSwapchain(){ return swapchain;}
     VkExtent2D getWindowSize(){return wnd_size;}
@@ -79,7 +79,7 @@ public:
     uint32_t getGraphicsIndex(){return graphics_ind;}
     VkPhysicalDeviceMemoryProperties getMemoryProps(){return mem_props;}
     VkDeviceMemory getDepthMemory(){return depth_mem;}
-    VulkanBase(ANativeWindow *wnd);
+    VulkanBase(ANativeWindow *,uint32_t width,uint32_t height);
 };
 
 #endif //FUTUROLANDDEV_VULKAN_BASE_H

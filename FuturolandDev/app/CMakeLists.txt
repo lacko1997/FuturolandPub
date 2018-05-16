@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.4.1)
 
 add_library( native-lib
              SHARED
+             src/main/cpp/native-lib.cpp
              src/main/cpp/graphics_module.cpp)
 
 add_library( vulkan_module
@@ -9,6 +10,7 @@ add_library( vulkan_module
              src/main/cpp/vulkan_func.cpp
              src/main/cpp/vulkan_base.cpp
              src/main/cpp/vulkan_render_surface.cpp
+             src/main/cpp/vulkan_draw_command.cpp
              src/main/cpp/vulkan_render_command.cpp
              src/main/cpp/vulkan_commands.cpp
              src/main/cpp/vulkan_module.cpp)

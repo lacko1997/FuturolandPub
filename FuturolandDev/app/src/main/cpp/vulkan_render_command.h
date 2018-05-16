@@ -1,13 +1,13 @@
-//
-// Created by Lacko on 2018. 05. 14..
-//
-
 #ifndef FUTUROLANDDEV_VULKAN_RENDER_COMMAND_H
 #define FUTUROLANDDEV_VULKAN_RENDER_COMMAND_H
 
+#include "vulkan_func.h"
+#include "graphics_module.h"
 
 class VulkanRenderCommand {
-    VulkanRenderCommand(Model3D model)
+public:
+    virtual void cmd(VkCommandBuffer cmd_buff)=0;
+    VulkanRenderCommand(){}
 };
 
 

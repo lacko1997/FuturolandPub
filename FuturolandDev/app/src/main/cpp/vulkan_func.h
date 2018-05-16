@@ -1,14 +1,11 @@
 #ifndef FUTUROLAND_VULKAN_FUNC_H
 #define FUTUROLAND_VULKAN_FUNC_H
 
-#define VK_USE_PLATFORM_ANDROID_KHR
+#define VK_USE_PLATFORM_ANDROID_KHR 1
 #include <vulkan/vulkan.h>
 #include <iostream>
 #include <string>
 #include <cstdlib>
-#include <android/log.h>
-#include <android/native_window.h>
-#include <android/native_window_jni.h>
 #include <dlfcn.h>
 #include <vector>
 #include <cmath>
@@ -16,7 +13,7 @@
 #define SEMAPHORE_INFO VkSemaphoreCreateInfo semaphore={\
 .sType=VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO,\
 .flags=0,\
-.pNext=NULL};
+.pNext=NULL}
 
 using namespace std;
 

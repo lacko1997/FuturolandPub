@@ -1,7 +1,3 @@
-//
-// Created by Lacko on 2018. 05. 07..
-//
-
 #include "vulkan_render_surface.h"
 
 void VulkanRenderSurface::createRenderpass() {
@@ -68,9 +64,14 @@ void VulkanRenderSurface::subpassDependency() {
 
 }
 
-VulkanRenderSurface::VulkanRenderSurface(){
+VulkanRenderSurface::VulkanRenderSurface(VulkanBase *base):base(base){
     deffered=NULL;
-    base=NULL;
+    singleAttachments();
+    singleDependency();
+    singleSubpass();
+
+    createRenderpass();
+    createFrameBuffers();
 }
 
 void VulkanRenderSurface::singleAttachments() {
@@ -102,7 +103,6 @@ void VulkanRenderSurface::singleAttachments() {
 }
 
 void VulkanRenderSurface::createFrameBuffers() {
-    uint32_t img_count;
     VkImage* imgs=base->getImages(&img_count);
     VkImageView *views=base->getImageViews();
     VkImageView depth=base->getDepthView();

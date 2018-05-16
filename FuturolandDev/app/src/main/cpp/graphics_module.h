@@ -14,10 +14,13 @@ typedef struct Model3D{
 
 extern vector<Model3D> models;
 
+extern PFN_draw draw_func;
+
 class GraphicsModule{
 private:
+
 public:
-    GraphicsModule(ANativeWindow *wnd);
+    GraphicsModule(ANativeWindow *wnd,uint32_t width,uint32_t height);
 };
 
 

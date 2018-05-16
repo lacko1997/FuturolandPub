@@ -21,6 +21,8 @@ private:
     uint32_t subpass_count;
     VkSubpassDescription *subpasses;
 
+    uint32_t img_count;
+
     uint32_t attachment_count;
     VkAttachmentDescription *attachments;
 
@@ -37,11 +39,9 @@ private:
     void createFrameBuffers();
 public:
     VkRenderPass getRenderpass(){return renderpass;}
-    VkFramebuffer *getFramebuffers(uint32_t *img_count){
-        base->getImages(img_count);
-        return fbos;
-    }
-    VulkanRenderSurface();
+    VkFramebuffer *getFramebuffers(){return fbos;}
+    uint32_t getImgCount(){return img_count;};
+    VulkanRenderSurface(VulkanBase *base);
 };
 
 

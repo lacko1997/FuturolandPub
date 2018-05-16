@@ -1,10 +1,6 @@
-//
-// Created by Lacko on 2018. 05. 07..
-//
-
 #include "vulkan_commands.h"
 
-void VulkanComands::createCommandPool() {
+void VulkanCommands::createCommandPool() {
     VkCommandPoolCreateInfo info={};
     info.sType=VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
     info.pNext=NULL;
@@ -14,28 +10,28 @@ void VulkanComands::createCommandPool() {
     pfn_vkCreateCommandPool(base->getDevice(),&info,NULL,&pool);
 }
 
-VkCommandBuffer *VulkanComands::allocateCmdBuffs() {
-    base->getImages(&img_count);
-    VkCommandBuffer *cmdbuffer= (VkCommandBuffer*) malloc(sizeof(VkCommandBuffer) * img_count);
+VkCommandBuffer *VulkanCommands::allocateCmdBuffs() {
+    img_count=renderer->getImgCount();
+    cmd_buffs= (VkCommandBuffer*) malloc(sizeof(VkCommandBuffer) * img_count);
 
     VkCommandBufferAllocateInfo info={};
     info.sType=VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
     info.pNext=NULL;
-    info.commandBufferCount=2;
+    info.commandBufferCount=img_count;
     info.commandPool=pool;
     info.level=VK_COMMAND_BUFFER_LEVEL_PRIMARY;
 
-    pfn_vkAllocateCommandBuffers(base->getDevice(),&info,cmdbuffer);
+    pfn_vkAllocateCommandBuffers(base->getDevice(),&info,cmd_buffs);
 }
 
-void VulkanComands::recordCommandBuffers(VkCommandBuffer *cmd_buff) {
+void VulkanCommands::recordCommandBuffers(VkCommandBuffer *cmd_buff) {
     VkCommandBufferBeginInfo info={};
     info.sType=VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
     info.flags=VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
     info.pNext=NULL;
     info.pInheritanceInfo=NULL;
 
-    VkClearValue values[4]={{1.0,0.0,0.0f,1.0f},{0.0f,0},{0.0,1.0,1.0f,1.0f},{1.0f,0}};
+    VkClearValue values[4]={{1.0,0.0,0.0f,1.0f},{0.0f,0},{0.0,1.0,1.0f,1.0f},{0.0f,0}};
 
     VkRect2D rect={};
     rect.offset.x=0;
@@ -49,7 +45,7 @@ void VulkanComands::recordCommandBuffers(VkCommandBuffer *cmd_buff) {
         rinfo.renderPass=renderer->getRenderpass();
         rinfo.clearValueCount=2;
         rinfo.pClearValues=&values[i*2];
-        rinfo.framebuffer=renderer->getFramebuffers(&img_count)[i];
+        rinfo.framebuffer=renderer->getFramebuffers()[i];
         rinfo.renderArea=rect;
 
         pfn_vkBeginCommandBuffer(cmd_buff[i],&info);
@@ -57,6 +53,11 @@ void VulkanComands::recordCommandBuffers(VkCommandBuffer *cmd_buff) {
         pfn_vkCmdEndRenderPass(cmd_buff[i]);
         pfn_vkEndCommandBuffer(cmd_buff[i]);
     }
+}
+
+VulkanCommands::VulkanCommands(VulkanBase *base, VulkanRenderSurface *renderer):base(base),renderer(renderer) {
+    createCommandPool();
+    allocateCmdBuffs();
 }
 
 

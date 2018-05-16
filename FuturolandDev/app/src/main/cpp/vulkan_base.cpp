@@ -1,9 +1,6 @@
-//
-// Created by Lacko on 2018. 05. 06..
-//
-
 #include "vulkan_base.h"
 
+//2018. 05. 06..
 bool VulkanBase::createInstance(char* appname) {
     VkApplicationInfo app_info={};
     app_info.sType=VK_STRUCTURE_TYPE_APPLICATION_INFO;
@@ -88,9 +85,8 @@ void VulkanBase::createDevice() {
     pfn_vkCreateDevice(gpu,&info,NULL,&device);
 }
 
-void VulkanBase::createSurface(ANativeWindow *wnd) {
-    wnd_size.width= (uint32_t) ANativeWindow_getWidth(wnd);
-    wnd_size.height= (uint32_t) ANativeWindow_getWidth(wnd);
+void VulkanBase::createSurface(ANativeWindow *wnd,VkExtent2D wndSize) {
+    wnd_size=wndSize;
 
     VkAndroidSurfaceCreateInfoKHR info={};
     info.sType=VK_STRUCTURE_TYPE_ANDROID_SURFACE_CREATE_INFO_KHR;
@@ -99,6 +95,8 @@ void VulkanBase::createSurface(ANativeWindow *wnd) {
     info.window=wnd;
 
     pfn_vkCreateAndroidSurfaceKHR(instance,&info,NULL,&surface);
+
+    pfn_vkGetDeviceQueue(device,graphics_ind,0,&queue);
 }
 
 void VulkanBase::createSwapchain() {
@@ -270,11 +268,15 @@ void VulkanBase::createDepthBuffer() {
     pfn_vkCreateImageView(device,&vinfo,NULL,&depthView);
 }
 
-VulkanBase::VulkanBase(ANativeWindow *wnd) {
-    createInstance((char *) "Futuroland");
+VulkanBase::VulkanBase(ANativeWindow *wnd,uint32_t width,uint32_t height) {
+    VkExtent2D wnd_size={};
+    wnd_size.width=width;
+    wnd_size.height=height;
+
+    bool supported=createInstance((char *) "Futuroland");
     enumerateGPU();
     createDevice();
-    createSurface(wnd);
+    createSurface(wnd,wnd_size);
     createSwapchain();
     reciveImages();
     createDepthBuffer();

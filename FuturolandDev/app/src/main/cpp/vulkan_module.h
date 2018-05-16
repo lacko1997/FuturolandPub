@@ -1,26 +1,19 @@
-//
-// Created by Lacko on 2018. 05. 07..
-//
-
 #ifndef FUTUROLANDDEV_VULKAN_MODULE_H
 #define FUTUROLANDDEV_VULKAN_MODULE_H
-
 
 #include "vulkan_base.h"
 #include "vulkan_render_surface.h"
 #include "graphics_module.h"
+#include "vulkan_commands.h"
 
 class VulkanModule {
 private:
     VulkanBase *base;
     VulkanRenderSurface *surface;
-    void draw();
+    VulkanCommands *commander;
 public:
-
-    PFN_draw getDrawFunc(){return draw;};
-    bool isSupported(){};
-    VulkanModule();
+    static void draw();
+    bool isSupported(){return base->isSupported();};
+    VulkanModule(ANativeWindow *wnd,uint32_t width,uint32_t height);
 };
-
-
 #endif //FUTUROLANDDEV_VULKAN_MODULE_H
