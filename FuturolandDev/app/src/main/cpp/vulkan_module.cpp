@@ -39,6 +39,7 @@ void VulkanModule::draw() {
 
 VulkanModule::VulkanModule(ANativeWindow* wnd,uint32_t width,uint32_t height) {
     base=new VulkanBase(wnd,width,height);
+    __android_log_print(ANDROID_LOG_ERROR,"succes","base");
     surface=new VulkanRenderSurface(base);
     commander=new VulkanCommands(base,surface);
 

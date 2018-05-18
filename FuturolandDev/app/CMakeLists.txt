@@ -18,6 +18,11 @@ add_library( vulkan_module
 
 find_library( log-lib
               log )
+
+target_link_libraries( vulkan_module
+                       android
+                       ${log-lib} )
+
 target_link_libraries( native-lib
                        vulkan_module
                        android

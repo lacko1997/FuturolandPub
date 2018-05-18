@@ -127,7 +127,7 @@ void VulkanBase::createSwapchain() {
     info.imageExtent=wnd_size;
     info.imageFormat=color_format;
     info.imageSharingMode=VK_SHARING_MODE_EXCLUSIVE;
-    info.imageUsage=VK_IMAGE_TYPE_2D;
+    info.imageUsage=VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
     info.minImageCount=2;
     info.oldSwapchain=VK_NULL_HANDLE;
     info.pNext=NULL;
@@ -138,6 +138,7 @@ void VulkanBase::createSwapchain() {
     info.preTransform=VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR;
 
     pfn_vkCreateSwapchainKHR(device,&info,NULL,&swapchain);
+
 }
 
 void VulkanBase::reciveImages() {
@@ -145,6 +146,8 @@ void VulkanBase::reciveImages() {
     pfn_vkGetSwapchainImagesKHR(device,swapchain,&count,NULL);
     swImages= (VkImage *) malloc(sizeof(VkImage) * count);
     pfn_vkGetSwapchainImagesKHR(device,swapchain,&count,swImages);
+
+    swImgViews= (VkImageView *) malloc(sizeof(VkImageView) * count);
 
     VkComponentMapping mapping={};
     mapping.r=VK_COMPONENT_SWIZZLE_R;
@@ -170,7 +173,8 @@ void VulkanBase::reciveImages() {
         info.subresourceRange=range;
         info.viewType=VK_IMAGE_VIEW_TYPE_2D;
 
-        pfn_vkCreateImageView(device,&info,NULL,&swImgViews[i]);
+        VkResult result=pfn_vkCreateImageView(device,&info,NULL,&swImgViews[i]);
+        __android_log_print(ANDROID_LOG_ERROR,"valami","%d",result);
     }
 }
 

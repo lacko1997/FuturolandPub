@@ -5,7 +5,6 @@
 #include "graphics_module.h"
 #include "vulkan_func.h"
 #include "vulkan_module.h"
-#include <android/log.h>
 
 #define DEBUG
 

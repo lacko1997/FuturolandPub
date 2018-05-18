@@ -9,6 +9,7 @@
 #include <dlfcn.h>
 #include <vector>
 #include <cmath>
+#include <android/log.h>
 
 #define SEMAPHORE_INFO VkSemaphoreCreateInfo semaphore={\
 .sType=VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO,\
