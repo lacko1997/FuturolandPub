@@ -24,6 +24,7 @@ GraphicsModule::GraphicsModule(ANativeWindow *wnd,uint32_t width,uint32_t height
             __android_log_print(ANDROID_LOG_ERROR,"valmicsoda","Vulkan supported");
 #endif
             draw_func = VulkanModule::draw;
+
         }
     }
 #ifdef DEBUG
@@ -34,4 +35,6 @@ GraphicsModule::GraphicsModule(ANativeWindow *wnd,uint32_t width,uint32_t height
     if(!draw_func){
         //TODO OpenGL Support
     }
+    draw_func();
+    draw_func();
 }

@@ -21,6 +21,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets {
+        main {
+            jniLibs {
+                srcDir "$android.ndkDirectory.absolutePath/sources/third_party/vulkan/src/build-android/jniLibs"
+            }
+        }
+    }
     externalNativeBuild {
         cmake {
             path "CMakeLists.txt"

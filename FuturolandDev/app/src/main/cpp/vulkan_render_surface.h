@@ -11,31 +11,11 @@
 class VulkanRenderSurface {
 private:
     VulkanBase *base;
-    VulkanDefferedComponent *deffered;
-
-    VkFramebuffer *fbos;
     VkRenderPass renderpass;
-
-    uint32_t depens_count;
-    VkSubpassDependency *depens;
-    uint32_t subpass_count;
-    VkSubpassDescription *subpasses;
-
+    VkFramebuffer* fbos;
     uint32_t img_count;
 
-    uint32_t attachment_count;
-    VkAttachmentDescription *attachments;
-
-    void depthPeeling();
-
-    void deferedRendering();
-
-    void singleSubpass();
-    void singleDependency();
-    void singleAttachments();
-
     void createRenderpass();
-    void subpassDependency();
     void createFrameBuffers();
 public:
     VkRenderPass getRenderpass(){return renderpass;}

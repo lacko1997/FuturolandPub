@@ -15,7 +15,7 @@ private:
     uint32_t img_count;
 
     void createCommandPool();
-    VkCommandBuffer *allocateCmdBuffs();
+    void allocateCmdBuffs();
 public:
     VkCommandBuffer *getCmdBuffs(){return cmd_buffs;}
     void recordCommandBuffers(VkCommandBuffer *cmd_buff);

@@ -10,7 +10,7 @@ void VulkanCommands::createCommandPool() {
     pfn_vkCreateCommandPool(base->getDevice(),&info,NULL,&pool);
 }
 
-VkCommandBuffer *VulkanCommands::allocateCmdBuffs() {
+void VulkanCommands::allocateCmdBuffs() {
     img_count=renderer->getImgCount();
     cmd_buffs= (VkCommandBuffer*) malloc(sizeof(VkCommandBuffer) * img_count);
 

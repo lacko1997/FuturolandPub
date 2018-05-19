@@ -1,7 +1,28 @@
 #include "vulkan_base.h"
-
+//#define DEBUG
 //2018. 05. 06..
+#ifdef DEBUG
+vector<const char*> layers=vector<const char*>();
+#endif
+
 bool VulkanBase::createInstance(char* appname) {
+#ifdef DEBUG
+    uint32_t count;
+    pfn_vkEnumerateInstanceLayerProperties(&count,NULL);
+    VkLayerProperties *props=(VkLayerProperties*)malloc(sizeof(VkLayerProperties)*count);
+    pfn_vkEnumerateInstanceLayerProperties(&count,props);
+
+    for(int i=0;i<count;i++){
+        __android_log_print(ANDROID_LOG_ERROR,"layer","%s",props[i].layerName);
+    }
+    layers.push_back("VK_LAYER_GOOGLE_threading");
+    layers.push_back("VK_LAYER_LUNARG_core_validation");
+    layers.push_back("VK_LAYER_LUNARG_object_tracker");
+    layers.push_back("VK_LAYER_LUNARG_swapchain");
+    layers.push_back("VK_LAYER_LUNARG_image");
+    layers.push_back("VK_LAYER_LUNARG_parameter_validation");
+    layers.push_back("VK_LAYER_GOOGLE_unique_objects");
+#endif
     VkApplicationInfo app_info={};
     app_info.sType=VK_STRUCTURE_TYPE_APPLICATION_INFO;
     app_info.pNext=NULL;
@@ -11,17 +32,25 @@ bool VulkanBase::createInstance(char* appname) {
     app_info.pApplicationName=appname;
     app_info.pEngineName="Phenyl Engine";
 
-    vector<char*> ext=vector<char*>();
-    ext.push_back((char *const &) VK_KHR_SURFACE_EXTENSION_NAME);
-    ext.push_back((char *const &) VK_KHR_ANDROID_SURFACE_EXTENSION_NAME);
+    vector<const char*> ext=vector<const char*>();
+    ext.push_back(VK_KHR_SURFACE_EXTENSION_NAME);
+    ext.push_back(VK_KHR_ANDROID_SURFACE_EXTENSION_NAME);
+#ifdef DEBUG
+    ext.push_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
+#endif
 
     VkInstanceCreateInfo info={};
     info.sType=VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
     info.pNext=NULL;
     info.enabledExtensionCount=(uint32_t)ext.size();
     info.ppEnabledExtensionNames= (const char *const *) ext.data();
+#ifndef DEBUG
     info.enabledLayerCount=0;
-    info.ppEnabledLayerNames=0;
+    info.ppEnabledLayerNames=NULL;
+#else
+    info.enabledLayerCount= (uint32_t) layers.size();
+    info.ppEnabledLayerNames=layers.data();
+#endif
     info.pApplicationInfo=&app_info;
     VkResult result=pfn_vkCreateInstance(&info,NULL,&instance);
     return result==VK_SUCCESS;
@@ -74,8 +103,13 @@ void VulkanBase::createDevice() {
     VkDeviceCreateInfo info={};
     info.sType=VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
     info.flags=0;
+#ifndef DEBUG
     info.enabledLayerCount=0;
     info.ppEnabledLayerNames=NULL;
+#else
+    info.enabledLayerCount= (uint32_t) layers.size();
+    info.ppEnabledLayerNames=layers.data();
+#endif
     info.enabledExtensionCount= (uint32_t) ext.size();
     info.ppEnabledExtensionNames= (const char *const *) ext.data();
     info.queueCreateInfoCount=1;
@@ -173,8 +207,7 @@ void VulkanBase::reciveImages() {
         info.subresourceRange=range;
         info.viewType=VK_IMAGE_VIEW_TYPE_2D;
 
-        VkResult result=pfn_vkCreateImageView(device,&info,NULL,&swImgViews[i]);
-        __android_log_print(ANDROID_LOG_ERROR,"valami","%d",result);
+        pfn_vkCreateImageView(device,&info,NULL,&swImgViews[i]);
     }
 }
 
@@ -277,7 +310,7 @@ VulkanBase::VulkanBase(ANativeWindow *wnd,uint32_t width,uint32_t height) {
     wnd_size.width=width;
     wnd_size.height=height;
 
-    bool supported=createInstance((char *) "Futuroland");
+    supported=createInstance((char *) "Futuroland");
     enumerateGPU();
     createDevice();
     createSurface(wnd,wnd_size);
