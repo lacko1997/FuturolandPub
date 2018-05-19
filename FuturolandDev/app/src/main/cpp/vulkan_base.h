@@ -2,6 +2,7 @@
 #define FUTUROLANDDEV_VULKAN_BASE_H
 
 #include "vulkan_func.h"
+#define DEBUG
 
 #define DEV_BEG (VkDeviceSize) 0
 #define CLIPPING {\
@@ -26,6 +27,10 @@
 
 class VulkanBase {
 private:
+#ifdef DEBUG
+    PFN_vkCreateDebugReportCallbackEXT pfn_vkCreateDebugReportCallbackEXT;
+    VkDebugReportCallbackEXT callback;
+#endif
     VkInstance instance;
     VkPhysicalDevice gpu;
     VkDevice device;
@@ -49,6 +54,9 @@ private:
     bool supported;
 
     bool createInstance(char* appname);
+#ifdef DEBUG
+    void createReportCallback();
+#endif
     void enumerateGPU();
     void createDevice();
     void createSurface(ANativeWindow *wnd,VkExtent2D wnd_size);

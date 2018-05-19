@@ -1,5 +1,4 @@
 #include "vulkan_base.h"
-//#define DEBUG
 //2018. 05. 06..
 #ifdef DEBUG
 vector<const char*> layers=vector<const char*>();
@@ -18,8 +17,8 @@ bool VulkanBase::createInstance(char* appname) {
     layers.push_back("VK_LAYER_GOOGLE_threading");
     layers.push_back("VK_LAYER_LUNARG_core_validation");
     layers.push_back("VK_LAYER_LUNARG_object_tracker");
-    layers.push_back("VK_LAYER_LUNARG_swapchain");
-    layers.push_back("VK_LAYER_LUNARG_image");
+    //layers.push_back("VK_LAYER_LUNARG_swapchain");
+    //layers.push_back("VK_LAYER_LUNARG_image");
     layers.push_back("VK_LAYER_LUNARG_parameter_validation");
     layers.push_back("VK_LAYER_GOOGLE_unique_objects");
 #endif
@@ -148,6 +147,10 @@ void VulkanBase::createSwapchain() {
     if(!ffound){
         color_format=fprops[0].format;
     }
+
+    VkSurfaceCapabilitiesKHR capabilities;
+    pfn_vkGetPhysicalDeviceSurfaceCapabilitiesKHR(gpu,surface,&capabilities);
+    __android_log_print(ANDROID_LOG_ERROR,"cap","%X",capabilities.supportedCompositeAlpha);
 
     free(fprops);
 
@@ -311,6 +314,9 @@ VulkanBase::VulkanBase(ANativeWindow *wnd,uint32_t width,uint32_t height) {
     wnd_size.height=height;
 
     supported=createInstance((char *) "Futuroland");
+#ifdef DEBUG
+    createReportCallback();
+#endif
     enumerateGPU();
     createDevice();
     createSurface(wnd,wnd_size);
@@ -318,4 +324,29 @@ VulkanBase::VulkanBase(ANativeWindow *wnd,uint32_t width,uint32_t height) {
     reciveImages();
     createDepthBuffer();
 }
+#ifdef DEBUG
+VKAPI_ATTR VkBool32 VKAPI_CALL callbackFunc(VkDebugReportFlagsEXT flags,VkDebugReportObjectTypeEXT objtype,uint64_t obj,size_t location,int32_t code, const char* layer_prefix,const char* msg,void* userData){
+    if(flags&VK_DEBUG_REPORT_ERROR_BIT_EXT){
+        __android_log_print(ANDROID_LOG_ERROR,"error","%s",msg);
+    }
+    if(flags&VK_DEBUG_REPORT_WARNING_BIT_EXT){
+        __android_log_print(ANDROID_LOG_ERROR,"warning","%s",msg);
+    }
+    if(flags&VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT){
+        __android_log_print(ANDROID_LOG_ERROR,"performance warning","%s",msg);
+    }
+}
+
+void VulkanBase::createReportCallback() {
+    pfn_vkCreateDebugReportCallbackEXT= (PFN_vkCreateDebugReportCallbackEXT) pfn_vkGetInstanceProcAddr(instance, "vkCreateDebugReportCallbackEXT");
+    VkDebugReportCallbackCreateInfoEXT info={};
+    info.sType=VK_STRUCTURE_TYPE_DEBUG_REPORT_CALLBACK_CREATE_INFO_EXT;
+    info.flags=VK_DEBUG_REPORT_ERROR_BIT_EXT|VK_DEBUG_REPORT_WARNING_BIT_EXT|VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT;
+    info.pfnCallback=callbackFunc;
+    info.pNext=NULL;
+    info.pUserData=NULL;
+
+    pfn_vkCreateDebugReportCallbackEXT(instance,&info,NULL,&callback);
+}
+#endif
 
