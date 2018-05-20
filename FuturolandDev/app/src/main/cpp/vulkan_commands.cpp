@@ -6,7 +6,7 @@ void VulkanCommands::createCommandPool() {
     info.pNext=NULL;
     info.flags=VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
     info.queueFamilyIndex=base->getGraphicsIndex();
-    __android_log_print(ANDROID_LOG_ERROR,"a","ao");
+
     pfn_vkCreateCommandPool(base->getDevice(),&info,NULL,&pool);
 }
 
@@ -21,7 +21,6 @@ void VulkanCommands::allocateCmdBuffs() {
     info.commandPool=pool;
     info.level=VK_COMMAND_BUFFER_LEVEL_PRIMARY;
 
-    __android_log_print(ANDROID_LOG_ERROR,"imgs","%d",img_count);
     pfn_vkAllocateCommandBuffers(base->getDevice(),&info,cmd_buffs);
 }
 
@@ -65,6 +64,12 @@ void VulkanCommands::recordCommandBuffers(VkCommandBuffer *cmd_buff) {
 VulkanCommands::VulkanCommands(VulkanBase *base, VulkanRenderSurface *renderer):base(base),renderer(renderer) {
     createCommandPool();
     allocateCmdBuffs();
+}
+
+VulkanCommands::~VulkanCommands() {
+    pfn_vkFreeCommandBuffers(base->getDevice(),pool,img_count,cmd_buffs);
+    free(cmd_buffs);
+    pfn_vkDestroyCommandPool(base->getDevice(),pool,NULL);
 }
 
 

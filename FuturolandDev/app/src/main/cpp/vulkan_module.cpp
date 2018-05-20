@@ -55,3 +55,12 @@ VulkanModule::VulkanModule(ANativeWindow* wnd,uint32_t width,uint32_t height) {
     pfn_vkCreateSemaphore(base->getDevice(),&semaphore,NULL,&submitDone);
     pfn_vkCreateSemaphore(base->getDevice(),&semaphore,NULL,&imageAcquired);
 }
+
+VulkanModule::~VulkanModule() {
+    pfn_vkDestroySemaphore(base->getDevice(),imageAcquired,NULL);
+    pfn_vkDestroySemaphore(base->getDevice(),submitDone,NULL);
+
+    delete commander;
+    delete surface;
+    delete base;
+}

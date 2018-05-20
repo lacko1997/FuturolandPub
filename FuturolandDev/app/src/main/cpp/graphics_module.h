@@ -22,6 +22,7 @@ private:
 public:
     GraphicsModule(ANativeWindow *wnd,uint32_t width,uint32_t height);
     PFN_draw getDrawFunc();
+    ~GraphicsModule();
 };
 
 

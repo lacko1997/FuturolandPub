@@ -326,6 +326,24 @@ VulkanBase::VulkanBase(ANativeWindow *wnd,uint32_t width,uint32_t height) {
     reciveImages();
     createDepthBuffer();
 }
+
+VulkanBase::~VulkanBase() {
+    pfn_vkDestroyImageView(device,depthView,NULL);
+    pfn_vkDestroyImage(device,depthBuffer,NULL);
+    pfn_vkFreeMemory(device,depth_mem,NULL);
+
+    for(int i=0;i<img_count;i++){
+        pfn_vkDestroyImageView(device,swImgViews[i],NULL);
+    }
+    free(swImages);
+    free(swImgViews);
+
+    pfn_vkDestroySwapchainKHR(device,swapchain,NULL);
+    pfn_vkDestroySurfaceKHR(instance,surface,NULL);
+    pfn_vkDestroyDevice(device,NULL);
+    pfn_vkDestroyInstance(instance,NULL);
+}
+
 #ifdef DEBUG
 VKAPI_ATTR VkBool32 VKAPI_CALL callbackFunc(VkDebugReportFlagsEXT flags,VkDebugReportObjectTypeEXT objtype,uint64_t obj,size_t location,int32_t code, const char* layer_prefix,const char* msg,void* userData){
     if(flags&VK_DEBUG_REPORT_ERROR_BIT_EXT){

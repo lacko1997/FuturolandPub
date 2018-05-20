@@ -15,5 +15,6 @@ public:
     static void draw();
     bool isSupported(){return base->isSupported();};
     VulkanModule(ANativeWindow *wnd,uint32_t width,uint32_t height);
+    ~VulkanModule();
 };
 #endif //FUTUROLANDDEV_VULKAN_MODULE_H

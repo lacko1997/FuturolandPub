@@ -20,6 +20,7 @@ public:
     VkCommandBuffer *getCmdBuffs(){return cmd_buffs;}
     void recordCommandBuffers(VkCommandBuffer *cmd_buff);
     VulkanCommands(VulkanBase* base,VulkanRenderSurface* renderer);
+    ~VulkanCommands();
 };
 
 

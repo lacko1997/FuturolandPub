@@ -95,3 +95,11 @@ void VulkanRenderSurface::createFrameBuffers() {
         pfn_vkCreateFramebuffer(base->getDevice(),&info,NULL,&fbos[i]);
     }
 }
+
+VulkanRenderSurface::~VulkanRenderSurface() {
+    for(int i=0;i<img_count;i++){
+        pfn_vkDestroyFramebuffer(base->getDevice(),fbos[i],NULL);
+    }
+    free(fbos);
+    pfn_vkDestroyRenderPass(base->getDevice(),renderpass,NULL);
+}

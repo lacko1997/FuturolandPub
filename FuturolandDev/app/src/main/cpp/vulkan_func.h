@@ -73,16 +73,19 @@ extern PFN_vkCreatePipelineLayout pfn_vkCreatePipelineLayout;
 extern PFN_vkCreateGraphicsPipelines pfn_vkCreateGraphicsPipelines;
 
 extern PFN_vkDestroySemaphore pfn_vkDestroySemaphore;
+extern PFN_vkDestroyRenderPass pfn_vkDestroyRenderPass;
+extern PFN_vkDestroyFramebuffer pfn_vkDestroyFramebuffer;
 extern PFN_vkFreeMemory pfn_vkFreeMemory;
 extern PFN_vkDestroyBuffer pfn_vkDestroyBuffer;
 extern PFN_vkDestroyCommandPool pfn_vkDestroyCommandPool;
-extern PFN_vkFreeCommandBuffers pfn_vkDestroyCommandBuffer;
+extern PFN_vkFreeCommandBuffers pfn_vkFreeCommandBuffers;
 extern PFN_vkDestroyImage pfn_vkDestroyImage;
 extern PFN_vkDestroyImageView pfn_vkDestroyImageView;
 extern PFN_vkDestroySwapchainKHR pfn_vkDestroySwapchainKHR;
 extern PFN_vkDestroySurfaceKHR pfn_vkDestroySurfaceKHR;
 extern PFN_vkDestroyDevice pfn_vkDestroyDevice;
 extern PFN_vkDestroyInstance pfn_vkDestroyInstance;
+extern PFN_vkQueueWaitIdle pfn_vkQueueWaitIdle;
 
 void loadVulkan(void* libvulkan);
 

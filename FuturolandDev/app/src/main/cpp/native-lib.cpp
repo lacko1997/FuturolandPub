@@ -27,7 +27,7 @@ void* gameLoop(void*){
     }
     return NULL;
 }
-GraphicsModule *module=NULL;
+GraphicsModule *gmodule=NULL;
 
 extern "C" JNIEXPORT void JNICALL Java_xyz_productions_phenyl_futuroland_futuroland_Renderer_initRenderer(JNIEnv *env, jobject instance, jobject surface) {
     wnd=ANativeWindow_fromSurface(env,surface);
@@ -37,8 +37,8 @@ extern "C" JNIEXPORT void JNICALL Java_xyz_productions_phenyl_futuroland_futurol
 #ifdef DEBUG
         __android_log_print(ANDROID_LOG_ERROR,"valami","%d %d",width,height);
 #endif
-        module=new GraphicsModule(wnd, (uint32_t) width, (uint32_t) height);
-        draw=module->getDrawFunc();
+        gmodule=new GraphicsModule(wnd, (uint32_t) width, (uint32_t) height);
+        draw=gmodule->getDrawFunc();
         pthread_create(&render_thread,NULL,gameLoop,NULL);
         pthread_mutex_init(&mutex,NULL);
     }
@@ -54,7 +54,7 @@ extern "C" JNIEXPORT jstring JNICALL Java_xyz_productions_phenyl_futuroland_futu
 }
 extern "C" JNIEXPORT void JNICALL Java_xyz_productions_phenyl_futuroland_futuroland_MainActivity_start(JNIEnv *env, jobject instance) {
     running=true;
-    if(module!=NULL) {
+    if(gmodule!=NULL) {
         pthread_create(&render_thread, NULL, gameLoop, NULL);
     }
 }

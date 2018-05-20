@@ -22,6 +22,7 @@ public:
     VkFramebuffer *getFramebuffers(){return fbos;}
     uint32_t getImgCount(){return img_count;};
     VulkanRenderSurface(VulkanBase *base);
+    ~VulkanRenderSurface();
 };
 
 

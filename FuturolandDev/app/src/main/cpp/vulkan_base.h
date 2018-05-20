@@ -88,6 +88,7 @@ public:
     VkPhysicalDeviceMemoryProperties getMemoryProps(){return mem_props;}
     VkDeviceMemory getDepthMemory(){return depth_mem;}
     VulkanBase(ANativeWindow *,uint32_t width,uint32_t height);
+    ~VulkanBase();
 };
 
 #endif //FUTUROLANDDEV_VULKAN_BASE_H
