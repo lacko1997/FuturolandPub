@@ -41,7 +41,6 @@ extern "C" JNIEXPORT void JNICALL Java_xyz_productions_phenyl_futuroland_futurol
         draw=gmodule->getDrawFunc();
         running=true;
         pthread_create(&render_thread,NULL,gameLoop,NULL);
-        __android_log_print(ANDROID_LOG_ERROR,"aa","%p",render_thread);
         pthread_mutex_init(&mutex,NULL);
     }
 #ifdef DEBUG
@@ -75,5 +74,4 @@ extern "C" JNIEXPORT void JNICALL Java_xyz_productions_phenyl_futuroland_futurol
 
     delete gmodule;
     pthread_mutex_destroy(&mutex);
-
 }

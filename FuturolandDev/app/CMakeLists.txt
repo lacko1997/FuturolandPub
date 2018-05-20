@@ -13,6 +13,7 @@ add_library( vulkan_module
              src/main/cpp/vulkan_draw_command.cpp
              src/main/cpp/vulkan_render_command.cpp
              src/main/cpp/vulkan_commands.cpp
+             src/main/cpp/vulkan_normal_pipeline.cpp
              src/main/cpp/vulkan_module.cpp)
 
 
