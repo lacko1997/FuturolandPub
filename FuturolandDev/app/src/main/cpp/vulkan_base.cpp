@@ -17,8 +17,8 @@ bool VulkanBase::createInstance(char* appname) {
     layers.push_back("VK_LAYER_GOOGLE_threading");
     layers.push_back("VK_LAYER_LUNARG_core_validation");
     layers.push_back("VK_LAYER_LUNARG_object_tracker");
-    //layers.push_back("VK_LAYER_LUNARG_swapchain");
-    //layers.push_back("VK_LAYER_LUNARG_image");
+    layers.push_back("VK_LAYER_LUNARG_swapchain");
+    layers.push_back("VK_LAYER_LUNARG_image");
     layers.push_back("VK_LAYER_LUNARG_parameter_validation");
     layers.push_back("VK_LAYER_GOOGLE_unique_objects");
 #endif
@@ -99,6 +99,9 @@ void VulkanBase::createDevice() {
     vector<char*>ext=vector<char*>();
     ext.push_back((char *const &) VK_KHR_SWAPCHAIN_EXTENSION_NAME);
 
+    VkPhysicalDeviceFeatures features;
+    pfn_vkGetPhysicalDeviceFeatures(gpu,&features);
+
     VkDeviceCreateInfo info={};
     info.sType=VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
     info.flags=0;
@@ -113,6 +116,7 @@ void VulkanBase::createDevice() {
     info.ppEnabledExtensionNames= (const char *const *) ext.data();
     info.queueCreateInfoCount=1;
     info.pQueueCreateInfos=&qinfo;
+    info.pEnabledFeatures=&features;
     info.pNext=NULL;
 
     pfn_vkCreateDevice(gpu,&info,NULL,&device);
@@ -148,9 +152,8 @@ void VulkanBase::createSwapchain() {
         color_format=fprops[0].format;
     }
 
-    VkSurfaceCapabilitiesKHR capabilities;
-    pfn_vkGetPhysicalDeviceSurfaceCapabilitiesKHR(gpu,surface,&capabilities);
-    __android_log_print(ANDROID_LOG_ERROR,"cap","%X",capabilities.supportedCompositeAlpha);
+    VkPhysicalDeviceProperties props;
+    pfn_vkGetPhysicalDeviceProperties(gpu,&props);
 
     free(fprops);
 
@@ -179,12 +182,11 @@ void VulkanBase::createSwapchain() {
 }
 
 void VulkanBase::reciveImages() {
-    uint32_t count;
-    pfn_vkGetSwapchainImagesKHR(device,swapchain,&count,NULL);
-    swImages= (VkImage *) malloc(sizeof(VkImage) * count);
-    pfn_vkGetSwapchainImagesKHR(device,swapchain,&count,swImages);
+    pfn_vkGetSwapchainImagesKHR(device,swapchain,&img_count,NULL);
+    swImages= (VkImage *) malloc(sizeof(VkImage) *img_count);
+    pfn_vkGetSwapchainImagesKHR(device,swapchain,&img_count,swImages);
 
-    swImgViews= (VkImageView *) malloc(sizeof(VkImageView) * count);
+    swImgViews= (VkImageView *) malloc(sizeof(VkImageView) * img_count);
 
     VkComponentMapping mapping={};
     mapping.r=VK_COMPONENT_SWIZZLE_R;
@@ -199,7 +201,7 @@ void VulkanBase::reciveImages() {
     range.layerCount=1;
     range.levelCount=1;
 
-    for(int i=0;i<count;i++){
+    for(int i=0;i<img_count;i++){
         VkImageViewCreateInfo info={};
         info.sType=VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
         info.components=mapping;
@@ -327,13 +329,13 @@ VulkanBase::VulkanBase(ANativeWindow *wnd,uint32_t width,uint32_t height) {
 #ifdef DEBUG
 VKAPI_ATTR VkBool32 VKAPI_CALL callbackFunc(VkDebugReportFlagsEXT flags,VkDebugReportObjectTypeEXT objtype,uint64_t obj,size_t location,int32_t code, const char* layer_prefix,const char* msg,void* userData){
     if(flags&VK_DEBUG_REPORT_ERROR_BIT_EXT){
-        __android_log_print(ANDROID_LOG_ERROR,"error","%s",msg);
+        //__android_log_print(ANDROID_LOG_ERROR,"error","%s",msg);
     }
     if(flags&VK_DEBUG_REPORT_WARNING_BIT_EXT){
-        __android_log_print(ANDROID_LOG_ERROR,"warning","%s",msg);
+        //__android_log_print(ANDROID_LOG_ERROR,"warning","%s",msg);
     }
     if(flags&VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT){
-        __android_log_print(ANDROID_LOG_ERROR,"performance warning","%s",msg);
+        //__android_log_print(ANDROID_LOG_ERROR,"performance warning","%s",msg);
     }
 }
 

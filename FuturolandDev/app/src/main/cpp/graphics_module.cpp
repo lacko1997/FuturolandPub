@@ -35,6 +35,8 @@ GraphicsModule::GraphicsModule(ANativeWindow *wnd,uint32_t width,uint32_t height
     if(!draw_func){
         //TODO OpenGL Support
     }
-    draw_func();
-    draw_func();
+}
+
+PFN_draw GraphicsModule::getDrawFunc() {
+    return draw_func;
 }

@@ -11,7 +11,7 @@ void VulkanRenderSurface::createRenderpass() {
     attachments[0].format=color;
     attachments[0].samples=VK_SAMPLE_COUNT_1_BIT;
     attachments[0].loadOp=VK_ATTACHMENT_LOAD_OP_CLEAR;
-    attachments[0].storeOp=VK_ATTACHMENT_STORE_OP_STORE;
+    attachments[0].storeOp=VK_ATTACHMENT_STORE_OP_DONT_CARE;
     attachments[0].stencilLoadOp=VK_ATTACHMENT_LOAD_OP_DONT_CARE;
     attachments[0].stencilStoreOp=VK_ATTACHMENT_STORE_OP_DONT_CARE;
 
@@ -20,8 +20,8 @@ void VulkanRenderSurface::createRenderpass() {
     attachments[1].finalLayout=VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
     attachments[1].format=depth;
     attachments[1].samples=VK_SAMPLE_COUNT_1_BIT;
-    attachments[1].loadOp=VK_ATTACHMENT_LOAD_OP_LOAD;
-    attachments[1].storeOp=VK_ATTACHMENT_STORE_OP_STORE;
+    attachments[1].loadOp=VK_ATTACHMENT_LOAD_OP_CLEAR;
+    attachments[1].storeOp=VK_ATTACHMENT_STORE_OP_DONT_CARE;
     attachments[1].stencilLoadOp=VK_ATTACHMENT_LOAD_OP_DONT_CARE;
     attachments[1].stencilStoreOp=VK_ATTACHMENT_STORE_OP_DONT_CARE;
 
@@ -64,17 +64,7 @@ void VulkanRenderSurface::createRenderpass() {
     info.subpassCount=1;
     info.pSubpasses=&subpasses;
 
-    /*__android_log_print(ANDROID_LOG_ERROR,"aaa","renderpass:%p subpass:%p (%d) base:%p info:%p (%d) renderpass_func:%p\n attachmnets:%p (%d) dependencies:%p (%d)",
-                        &renderpass,
-                        subpasses, (int)sizeof(VkSubpassDescription),
-                        base,
-                        &info, (int)sizeof(VkRenderPassCreateInfo),
-                        pfn_vkCreateRenderPass,
-                        attachments,(int)sizeof(VkAttachmentDescription),
-                        depens,(int)sizeof(VkSubpassDependency)
-                        );*/
-
-    VkResult result=pfn_vkCreateRenderPass(base->getDevice(),&info,NULL,&renderpass);
+    pfn_vkCreateRenderPass(base->getDevice(),&info,NULL,&renderpass);
 }
 VulkanRenderSurface::VulkanRenderSurface(VulkanBase *base):base(base){
     createRenderpass();
@@ -82,7 +72,7 @@ VulkanRenderSurface::VulkanRenderSurface(VulkanBase *base):base(base){
 }
 
 void VulkanRenderSurface::createFrameBuffers() {
-    VkImage* imgs=base->getImages(&img_count);
+    base->getImages(&img_count);
     VkImageView *views=base->getImageViews();
     VkImageView depth=base->getDepthView();
 

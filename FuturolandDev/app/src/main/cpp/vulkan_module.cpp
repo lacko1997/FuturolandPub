@@ -36,14 +36,12 @@ void VulkanModule::draw() {
     pinfo.pSwapchains=&swapchain;
 
     pfn_vkQueuePresentKHR(queue,&pinfo);
-    __android_log_print(ANDROID_LOG_ERROR,"present","%d",result);
 }
 
 VulkanModule::VulkanModule(ANativeWindow* wnd,uint32_t width,uint32_t height) {
     base=new VulkanBase(wnd,width,height);
     surface=new VulkanRenderSurface(base);
     commander=new VulkanCommands(base,surface);
-
     swapchain=base->getSwapchain();
     cmd_buffs=commander->getCmdBuffs();
     commander->recordCommandBuffers(cmd_buffs);

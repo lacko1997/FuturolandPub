@@ -6,7 +6,7 @@ void VulkanCommands::createCommandPool() {
     info.pNext=NULL;
     info.flags=VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
     info.queueFamilyIndex=base->getGraphicsIndex();
-
+    __android_log_print(ANDROID_LOG_ERROR,"a","ao");
     pfn_vkCreateCommandPool(base->getDevice(),&info,NULL,&pool);
 }
 
@@ -21,6 +21,7 @@ void VulkanCommands::allocateCmdBuffs() {
     info.commandPool=pool;
     info.level=VK_COMMAND_BUFFER_LEVEL_PRIMARY;
 
+    __android_log_print(ANDROID_LOG_ERROR,"imgs","%d",img_count);
     pfn_vkAllocateCommandBuffers(base->getDevice(),&info,cmd_buffs);
 }
 
@@ -31,7 +32,13 @@ void VulkanCommands::recordCommandBuffers(VkCommandBuffer *cmd_buff) {
     info.pNext=NULL;
     info.pInheritanceInfo=NULL;
 
-    VkClearValue values[4]={{1.0,0.0,0.0f,1.0f},{0.0f,0},{0.0,1.0,1.0f,1.0f},{0.0f,0}};
+    VkClearValue values[6];
+    values[0].color=(VkClearColorValue){1.0,1.0,1.0,1.0};
+    values[1].depthStencil=(VkClearDepthStencilValue){0.0,0};
+    values[2].color=(VkClearColorValue){0.0,0.0,0.0,1.0};
+    values[3].depthStencil=(VkClearDepthStencilValue){0.0,0};
+    values[4].color=(VkClearColorValue){0.0,1.0,0.0,1.0};
+    values[5].depthStencil=(VkClearDepthStencilValue){0.0,0};
 
     VkRect2D rect={};
     rect.offset.x=0;

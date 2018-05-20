@@ -2,7 +2,7 @@
 #define FUTUROLANDDEV_VULKAN_BASE_H
 
 #include "vulkan_func.h"
-#define DEBUG
+//#define DEBUG
 
 #define DEV_BEG (VkDeviceSize) 0
 #define CLIPPING {\
