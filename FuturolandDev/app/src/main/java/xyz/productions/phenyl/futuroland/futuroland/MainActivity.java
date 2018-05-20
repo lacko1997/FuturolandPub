@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     private native void start();
     private native void pause();
+    private native void stop();
 
     @Override
     protected void onStart() {
@@ -45,6 +46,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-
+        stop();
     }
 }

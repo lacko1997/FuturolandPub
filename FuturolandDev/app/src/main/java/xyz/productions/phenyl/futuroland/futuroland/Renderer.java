@@ -2,6 +2,7 @@ package xyz.productions.phenyl.futuroland.futuroland;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -16,6 +17,7 @@ public class Renderer implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
+        Log.e("surface","created");
         Surface render=surfaceHolder.getSurface();
         initRenderer(render);
     }

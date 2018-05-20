@@ -39,7 +39,9 @@ extern "C" JNIEXPORT void JNICALL Java_xyz_productions_phenyl_futuroland_futurol
 #endif
         gmodule=new GraphicsModule(wnd, (uint32_t) width, (uint32_t) height);
         draw=gmodule->getDrawFunc();
+        running=true;
         pthread_create(&render_thread,NULL,gameLoop,NULL);
+        __android_log_print(ANDROID_LOG_ERROR,"aa","%p",render_thread);
         pthread_mutex_init(&mutex,NULL);
     }
 #ifdef DEBUG
@@ -53,13 +55,25 @@ extern "C" JNIEXPORT jstring JNICALL Java_xyz_productions_phenyl_futuroland_futu
     return env->NewStringUTF(vk_messages.c_str());
 }
 extern "C" JNIEXPORT void JNICALL Java_xyz_productions_phenyl_futuroland_futuroland_MainActivity_start(JNIEnv *env, jobject instance) {
-    running=true;
-    if(gmodule!=NULL) {
+    if(!running&&gmodule!=NULL) {
         pthread_create(&render_thread, NULL, gameLoop, NULL);
     }
 }
 extern "C" JNIEXPORT void JNICALL Java_xyz_productions_phenyl_futuroland_futuroland_MainActivity_pause(JNIEnv *env, jobject instance) {
-    void *value;
-    running=false;
-    pthread_join(render_thread,&value);
+    if(running) {
+        void *value;
+        running = false;
+        pthread_join(render_thread, &value);
+    }
+}
+extern "C" JNIEXPORT void JNICALL Java_xyz_productions_phenyl_futuroland_futuroland_MainActivity_stop(JNIEnv *env, jobject instance) {
+    if(running) {
+        void *value;
+        running = false;
+        pthread_join(render_thread, &value);
+    }
+
+    delete gmodule;
+    pthread_mutex_destroy(&mutex);
+
 }
