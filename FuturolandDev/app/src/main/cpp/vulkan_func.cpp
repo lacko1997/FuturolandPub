@@ -59,6 +59,9 @@ PFN_vkDestroyDevice pfn_vkDestroyDevice;
 PFN_vkDestroyInstance pfn_vkDestroyInstance;
 PFN_vkDestroyRenderPass pfn_vkDestroyRenderPass;
 PFN_vkDestroyFramebuffer pfn_vkDestroyFramebuffer;
+PFN_vkDestroySampler pfn_vkDestroySampler;
+PFN_vkMapMemory pfn_vkMapMemory;
+PFN_vkUnmapMemory pfn_vkUnmapMemory;
 PFN_vkQueueWaitIdle pfn_vkQueueWaitIdle;
 //FUTUROLAND_VULKAN_FUNC_H
 
@@ -130,6 +133,9 @@ void loadVulkan(void* libvulkan) {
     pfn_vkBindImageMemory = (PFN_vkBindImageMemory) dlsym(libvulkan, "vkBindImageMemory");
     pfn_vkCreateSampler = (PFN_vkCreateSampler) dlsym(libvulkan, "vkCreateSampler");
 
+    pfn_vkMapMemory= (PFN_vkMapMemory) dlsym(libvulkan, "vkMapMemory");
+    pfn_vkUnmapMemory= (PFN_vkUnmapMemory) dlsym(libvulkan, "vkUnmapMemory");
+
     pfn_vkFreeMemory = (PFN_vkFreeMemory) dlsym(libvulkan, "vkFreeMemory");
 
     pfn_vkDestroySemaphore= (PFN_vkDestroySemaphore) dlsym(libvulkan, "vkDestroySemaphore");
@@ -144,5 +150,6 @@ void loadVulkan(void* libvulkan) {
     pfn_vkDestroySwapchainKHR= (PFN_vkDestroySwapchainKHR) dlsym(libvulkan, "vkDestroySwapchainKHR");
     pfn_vkDestroySurfaceKHR= (PFN_vkDestroySurfaceKHR) dlsym(libvulkan, "vkDestroySurfaceKHR");
     pfn_vkDestroyDevice= (PFN_vkDestroyDevice) dlsym(libvulkan, "vkDestroyDevice");
+    pfn_vkDestroySampler= (PFN_vkDestroySampler) dlsym(libvulkan, "vkDestroySampler");
     pfn_vkDestroyInstance= (PFN_vkDestroyInstance) dlsym(libvulkan, "vkDestroyInstance");
 }

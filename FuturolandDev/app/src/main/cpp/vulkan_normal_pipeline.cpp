@@ -2,7 +2,18 @@
 #include "vulkan_normal_pipeline.h"
 
 NormalPipeline::NormalPipeline(VulkanBase *base,VulkanRenderSurface *surface):base(base),surface(surface) {
+    range.offset=0;
+    range.size=128;
+    range.stageFlags=VK_SHADER_STAGE_VERTEX_BIT;
 
+    VkPipelineLayoutCreateInfo info={};
+    info.sType=VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+    info.flags=0;
+    info.pNext=NULL;
+    info.pushConstantRangeCount=1;
+    info.pPushConstantRanges=&range;
+    info.setLayoutCount=1;
+    info.pSetLayouts=NULL;//TODO create descriptorset layout
 }
 void NormalPipeline::createPipeline(){
     VkPipelineShaderStageCreateInfo *stages=collectStages();

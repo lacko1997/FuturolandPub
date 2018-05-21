@@ -14,6 +14,10 @@ add_library( vulkan_module
              src/main/cpp/vulkan_render_command.cpp
              src/main/cpp/vulkan_commands.cpp
              src/main/cpp/vulkan_normal_pipeline.cpp
+             src/main/cpp/vulkan_descriptors.cpp
+             src/main/cpp/vulkan_sampler.cpp
+             src/main/cpp/vulkan_uniform_buffer.cpp
+             src/main/cpp/vulkan_vertex_buffer.cpp
              src/main/cpp/vulkan_module.cpp)
 
 

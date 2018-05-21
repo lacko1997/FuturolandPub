@@ -37,6 +37,8 @@ private:
 
     VkPipelineDynamicStateCreateInfo dyn_info={};
 
+    VkPushConstantRange range;
+
     VulkanBase *base;
     VulkanRenderSurface *surface;
 

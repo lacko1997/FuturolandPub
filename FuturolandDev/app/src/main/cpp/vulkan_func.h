@@ -5,6 +5,7 @@
 #include <vulkan/vulkan.h>
 #include <iostream>
 #include <string>
+#include <string.h>
 #include <cstdlib>
 #include <dlfcn.h>
 #include <vector>
@@ -72,6 +73,9 @@ extern PFN_vkAllocateDescriptorSets pfn_vkAllocateDescriptorSets;
 extern PFN_vkCreatePipelineLayout pfn_vkCreatePipelineLayout;
 extern PFN_vkCreateGraphicsPipelines pfn_vkCreateGraphicsPipelines;
 
+extern PFN_vkMapMemory pfn_vkMapMemory;
+extern PFN_vkUnmapMemory pfn_vkUnmapMemory;
+
 extern PFN_vkDestroySemaphore pfn_vkDestroySemaphore;
 extern PFN_vkDestroyRenderPass pfn_vkDestroyRenderPass;
 extern PFN_vkDestroyFramebuffer pfn_vkDestroyFramebuffer;
@@ -85,6 +89,7 @@ extern PFN_vkDestroySwapchainKHR pfn_vkDestroySwapchainKHR;
 extern PFN_vkDestroySurfaceKHR pfn_vkDestroySurfaceKHR;
 extern PFN_vkDestroyDevice pfn_vkDestroyDevice;
 extern PFN_vkDestroyInstance pfn_vkDestroyInstance;
+extern PFN_vkDestroySampler pfn_vkDestroySampler;
 extern PFN_vkQueueWaitIdle pfn_vkQueueWaitIdle;
 
 void loadVulkan(void* libvulkan);

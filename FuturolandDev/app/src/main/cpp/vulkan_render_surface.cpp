@@ -101,5 +101,6 @@ VulkanRenderSurface::~VulkanRenderSurface() {
         pfn_vkDestroyFramebuffer(base->getDevice(),fbos[i],NULL);
     }
     free(fbos);
+
     pfn_vkDestroyRenderPass(base->getDevice(),renderpass,NULL);
 }
