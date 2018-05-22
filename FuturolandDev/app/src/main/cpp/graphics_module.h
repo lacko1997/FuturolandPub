@@ -3,18 +3,15 @@
 
 #include <vector>
 #include <android/native_window.h>
+#include <android/native_window_jni.h>
+#include "model_library.h"
 
 using namespace std;
 
 typedef void(*PFN_draw)();
-typedef struct Model3D{
-    float* vertex_data;
-    short* indeex_data;
-}Model3D;
-
-extern vector<Model3D> models;
 
 extern PFN_draw draw_func;
+
 
 class GraphicsModule{
 private:

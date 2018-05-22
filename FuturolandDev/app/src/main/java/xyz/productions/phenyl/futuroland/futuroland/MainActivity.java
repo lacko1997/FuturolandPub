@@ -2,9 +2,12 @@ package xyz.productions.phenyl.futuroland.futuroland;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.SurfaceView;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+
+import xyz.productions.phenyl.futuroland.futuroland.Downloaders.ModelEnumerator;
 
 public class MainActivity extends AppCompatActivity {
     static {
@@ -21,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
         TextView text=findViewById(R.id.sample_text);
 
         surface.getHolder().addCallback(render);
+        Log.e("files",getFilesDir().toString());
+        new ModelEnumerator(this).execute("futuroland");
     }
 
     private native void start();

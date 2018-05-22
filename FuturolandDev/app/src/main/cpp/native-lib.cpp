@@ -1,11 +1,11 @@
 #include <jni.h>
 #include <string>
-#include <android/native_window.h>
-#include <android/native_window_jni.h>
-#include "vulkan_func.h"
-#include "graphics_module.h"
 #include <android/log.h>
 #include <pthread.h>
+
+#include "vulkan_func.h"
+#include "graphics_module.h"
+
 
 #define DEBUG
 
@@ -74,4 +74,21 @@ extern "C" JNIEXPORT void JNICALL Java_xyz_productions_phenyl_futuroland_futurol
 
     delete gmodule;
     pthread_mutex_destroy(&mutex);
+}
+extern "C" JNIEXPORT void JNICALL Java_xyz_productions_phenyl_futuroland_futuroland_Resources_Model3D_modelData(JNIEnv *env,
+                                                                              jobject instance,
+                                                                              jfloatArray data_,
+                                                                              jshortArray index_data_) {
+    jfloat *data = env->GetFloatArrayElements(data_, NULL);
+    jshort *index_data = env->GetShortArrayElements(index_data_, NULL);
+
+    jsize data_length=env->GetArrayLength(data_);
+    jsize index_data_length=env->GetArrayLength(index_data_);
+
+    Model3D model={};
+    model.vertex_data= (float *) malloc(sizeof(float) * data_length);
+    model.index_data= (short *) malloc(sizeof(short) * index_data_length);
+
+    env->ReleaseFloatArrayElements(data_, data, 0);
+    env->ReleaseShortArrayElements(index_data_, index_data, 0);
 }
