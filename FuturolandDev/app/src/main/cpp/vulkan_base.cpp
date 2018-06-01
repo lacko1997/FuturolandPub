@@ -96,8 +96,8 @@ void VulkanBase::createDevice() {
     qinfo.flags=0;
     qinfo.pQueuePriorities=queues;
 
-    vector<char*>ext=vector<char*>();
-    ext.push_back((char *const &) VK_KHR_SWAPCHAIN_EXTENSION_NAME);
+    vector<const char*>ext=vector<const char*>();
+    ext.push_back(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
 
     VkPhysicalDeviceFeatures features;
     pfn_vkGetPhysicalDeviceFeatures(gpu,&features);

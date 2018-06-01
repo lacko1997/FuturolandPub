@@ -15,7 +15,7 @@ string vk_messages;
 ANativeWindow *wnd;
 
 pthread_t render_thread;
-pthread_mutex_t mutex;
+pthread_mutex_t p_mutex;
 
 PFN_draw draw;
 
@@ -41,7 +41,7 @@ extern "C" JNIEXPORT void JNICALL Java_xyz_productions_phenyl_futuroland_futurol
         draw=gmodule->getDrawFunc();
         running=true;
         pthread_create(&render_thread,NULL,gameLoop,NULL);
-        pthread_mutex_init(&mutex,NULL);
+        pthread_mutex_init(&p_mutex,NULL);
     }
 #ifdef DEBUG
     else {
@@ -73,7 +73,7 @@ extern "C" JNIEXPORT void JNICALL Java_xyz_productions_phenyl_futuroland_futurol
     }
 
     delete gmodule;
-    pthread_mutex_destroy(&mutex);
+    pthread_mutex_destroy(&p_mutex);
 }
 extern "C" JNIEXPORT void JNICALL Java_xyz_productions_phenyl_futuroland_futuroland_Resources_Model3D_modelData(JNIEnv *env,
                                                                               jobject instance,

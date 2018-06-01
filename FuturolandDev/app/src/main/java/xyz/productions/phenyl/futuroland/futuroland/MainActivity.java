@@ -8,6 +8,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import xyz.productions.phenyl.futuroland.futuroland.Downloaders.ModelEnumerator;
+import xyz.productions.phenyl.futuroland.futuroland.Utils.Hasher;
 
 public class MainActivity extends AppCompatActivity {
     static {
@@ -22,6 +23,9 @@ public class MainActivity extends AppCompatActivity {
 
         SurfaceView surface=findViewById(R.id.renderer);
         TextView text=findViewById(R.id.sample_text);
+
+        Hasher hasher=new Hasher("265a06261153216");
+        Log.e("hash",hasher.getHash());
 
         surface.getHolder().addCallback(render);
         Log.e("files",getFilesDir().toString());

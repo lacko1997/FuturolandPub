@@ -20,6 +20,8 @@ import xyz.productions.phenyl.futuroland.futuroland.Resources.Model3D;
  * Created by Lacko on 2018. 05. 21..
  */
 
+
+
 public class ModelDownloader extends AsyncTask<String,Void,Integer>{
     Context ctx;
     public ModelDownloader(Context ctx){
