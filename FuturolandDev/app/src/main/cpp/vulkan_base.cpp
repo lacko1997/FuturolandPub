@@ -174,7 +174,7 @@ void VulkanBase::createSwapchain() {
     info.queueFamilyIndexCount=1;
     info.pQueueFamilyIndices=&graphics_ind;
     info.surface=surface;
-    info.presentMode=VK_PRESENT_MODE_MAILBOX_KHR;
+    info.presentMode=VK_PRESENT_MODE_FIFO_KHR;
     info.preTransform=VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR;
 
     pfn_vkCreateSwapchainKHR(device,&info,NULL,&swapchain);
